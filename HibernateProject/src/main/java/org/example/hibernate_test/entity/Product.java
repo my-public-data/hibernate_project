@@ -29,10 +29,18 @@ public class Product {
     private List<Users> usersList;
 
 
+
+
     @ManyToOne
     @JoinColumn(name = "mygroup_id", referencedColumnName = "id")
 
     private Category cat;
+
+
+    ///////////////////////////////////////////////////
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
+    private List<Order>orderList;
+    ///////////////////////////////////////////////////
 
     public Product( String code, String product_name, Double product_price, Category cat) {
        // this.id = id;
@@ -114,21 +122,6 @@ public class Product {
     }
 
 
-   // public int getCategory_id() {
-   //     return category_id;
-   // }
-
-   /* public boolean setCategory_id(int category_id) {
-
-        if (category_id < 0) {
-            System.out.println("Значение не корректно");
-            return false;
-        } else {
-            this.category_id = category_id;
-            return true;
-        }
-    }*/
-
     public Category getCat() {
         return cat;
     }
@@ -143,6 +136,14 @@ public class Product {
 
     public void setUsersList(List<Users> usersList) {
         this.usersList = usersList;
+    }
+
+    public List<Order> getOrderList() {
+        return orderList;
+    }
+
+    public void setOrderList(List<Order> orderList) {
+        this.orderList = orderList;
     }
 
     @Override

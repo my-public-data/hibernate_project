@@ -54,8 +54,12 @@ public class Test {
                 inputMenu2 = scanner2.nextLine();
                 if (inputMenu2.equals("1")) {
 
-                    Configuration configuration = new Configuration().
-                            addAnnotatedClass(Users.class).addAnnotatedClass(Product.class).addAnnotatedClass(Category.class);
+                    Configuration configuration = new Configuration()
+                            .addAnnotatedClass(Users.class)
+                            .addAnnotatedClass(Product.class)
+                            .addAnnotatedClass(Category.class)
+                            .addAnnotatedClass(Order.class)
+                            .addAnnotatedClass(Status.class);
                     SessionFactory factory100 = configuration.buildSessionFactory();
 
                     Session session100 = null;
@@ -76,8 +80,13 @@ public class Test {
 
                     }
 
-                    Configuration configuration11 = new Configuration().
-                            addAnnotatedClass(Users.class).addAnnotatedClass(Product.class).addAnnotatedClass(Category.class);
+                    Configuration configuration11 = new Configuration()
+                            .addAnnotatedClass(Users.class)
+                            .addAnnotatedClass(Product.class)
+                            .addAnnotatedClass(Category.class)
+                            .addAnnotatedClass(Order.class)
+                            .addAnnotatedClass(Status.class);
+
 
                     SessionFactory factory = configuration11.buildSessionFactory();
 
@@ -149,8 +158,13 @@ public class Test {
 
                                     while (!user.setEmail(input2.nextLine())) ;
 
-                                    Configuration configuration2 = new Configuration().
-                                            addAnnotatedClass(Users.class).addAnnotatedClass(Product.class).addAnnotatedClass(Category.class);
+                                    Configuration configuration2 = new Configuration()
+                                            .addAnnotatedClass(Users.class)
+                                            .addAnnotatedClass(Product.class)
+                                            .addAnnotatedClass(Category.class)
+                                            .addAnnotatedClass(Order.class)
+                                            .addAnnotatedClass(Status.class);
+
 
                                     SessionFactory factory4 = configuration2.buildSessionFactory();
 
@@ -204,7 +218,12 @@ public class Test {
 
 
                                     Configuration configuration3 = new Configuration().
-                                            addAnnotatedClass(Users.class).addAnnotatedClass(Product.class).addAnnotatedClass(Category.class);
+                                            addAnnotatedClass(Users.class)
+                                            .addAnnotatedClass(Product.class)
+                                            .addAnnotatedClass(Category.class)
+                                            .addAnnotatedClass(Order.class)
+                                            .addAnnotatedClass(Status.class);
+
 
                                     SessionFactory factory5 = configuration3.buildSessionFactory();
 
@@ -268,7 +287,10 @@ public class Test {
                                             new Configuration()
                                                     .addAnnotatedClass(Users.class)
                                                     .addAnnotatedClass(Product.class)
-                                                    .addAnnotatedClass(Category.class);
+                                                    .addAnnotatedClass(Category.class)
+                                                    .addAnnotatedClass(Order.class)
+                                                    .addAnnotatedClass(Status.class);
+
 
                                     SessionFactory factory3 = configuration4.buildSessionFactory();
 
@@ -393,7 +415,10 @@ public class Test {
                     Configuration configuration5 = new Configuration()
                             .addAnnotatedClass(Users.class)
                             .addAnnotatedClass(Product.class)
-                            .addAnnotatedClass(Category.class);
+                            .addAnnotatedClass(Category.class)
+                            .addAnnotatedClass(Order.class)
+                            .addAnnotatedClass(Status.class);
+
 
                     SessionFactory factory3 = configuration5.buildSessionFactory();
 
@@ -518,7 +543,12 @@ public class Test {
 
 
                                             Configuration configuration6 = new Configuration()
-                                                    .addAnnotatedClass(Users.class).addAnnotatedClass(Product.class).addAnnotatedClass(Category.class);
+                                                    .addAnnotatedClass(Users.class)
+                                                    .addAnnotatedClass(Product.class)
+                                                    .addAnnotatedClass(Category.class)
+                                                    .addAnnotatedClass(Order.class)
+                                                    .addAnnotatedClass(Status.class);
+
 
                                             SessionFactory factory500 = configuration6.buildSessionFactory();
 
@@ -559,7 +589,12 @@ public class Test {
 
 
                                     Configuration configuration7 = new Configuration()
-                                            .addAnnotatedClass(Users.class).addAnnotatedClass(Product.class).addAnnotatedClass(Category.class);
+                                            .addAnnotatedClass(Users.class)
+                                            .addAnnotatedClass(Product.class)
+                                            .addAnnotatedClass(Category.class)
+                                            .addAnnotatedClass(Order.class)
+                                            .addAnnotatedClass(Status.class);
+
 
                                     SessionFactory factory700 = configuration7.buildSessionFactory();
 
@@ -588,7 +623,12 @@ public class Test {
                                     Product product = new Product();  // СОЗДАЕМ ОБЪЕКТ КЛАССА
 
                                     Configuration configuration = new Configuration()
-                                            .addAnnotatedClass(Users.class).addAnnotatedClass(Product.class).addAnnotatedClass(Category.class);
+                                            .addAnnotatedClass(Users.class)
+                                            .addAnnotatedClass(Product.class)
+                                            .addAnnotatedClass(Category.class)
+                                            .addAnnotatedClass(Order.class)
+                                            .addAnnotatedClass(Status.class);
+
 
                                     SessionFactory factory5000 = configuration.buildSessionFactory();
 
@@ -615,7 +655,13 @@ public class Test {
 
                                             ////////////////////////////////////////////////////////////////////////////////////////////////////
                                             Configuration configuration123 = new Configuration()
-                                                    .addAnnotatedClass(Users.class).addAnnotatedClass(Product.class).addAnnotatedClass(Category.class);
+                                                    .addAnnotatedClass(Users.class)
+                                                    .addAnnotatedClass(Product.class)
+                                                    .addAnnotatedClass(Category.class)
+                                                    .addAnnotatedClass(Order.class)
+                                                    .addAnnotatedClass(Status.class);
+
+
                                             SessionFactory factory123 = configuration.buildSessionFactory();
 
                                             Session session123 = null;
@@ -724,7 +770,14 @@ public class Test {
                                                 do {
                                                     int count = 0;
                                                     Configuration configuration124 = new Configuration()
-                                                            .addAnnotatedClass(Users.class).addAnnotatedClass(Product.class).addAnnotatedClass(Category.class);
+                                                            .addAnnotatedClass(Users.class)
+                                                            .addAnnotatedClass(Product.class)
+                                                            .addAnnotatedClass(Category.class)
+                                                            .addAnnotatedClass(Order.class)
+                                                            .addAnnotatedClass(Status.class);
+
+
+                                                    ;
                                                     SessionFactory factory124 = configuration.buildSessionFactory();
 
                                                     Session session124 = null;
@@ -815,7 +868,12 @@ public class Test {
                                 case "4"://информация о всех товарах из базы данных
 
                                     Configuration configuration5 = new Configuration()
-                                            .addAnnotatedClass(Users.class).addAnnotatedClass(Product.class).addAnnotatedClass(Category.class);
+                                            .addAnnotatedClass(Users.class)
+                                            .addAnnotatedClass(Product.class)
+                                            .addAnnotatedClass(Category.class)
+                                            .addAnnotatedClass(Order.class)
+                                            .addAnnotatedClass(Status.class);
+
 
                                     SessionFactory factory200 = configuration5.buildSessionFactory();
 
@@ -844,9 +902,12 @@ public class Test {
                                     //  "Информация о зарегистрированных пользователях:"
 
                                     Configuration configuration8 = new Configuration().
-                                            addAnnotatedClass(Users.class).
-                                            addAnnotatedClass(Product.class).
-                                            addAnnotatedClass(Category.class);
+                                            addAnnotatedClass(Users.class)
+                                            .addAnnotatedClass(Product.class)
+                                            .addAnnotatedClass(Category.class)
+                                            .addAnnotatedClass(Order.class)
+                                            .addAnnotatedClass(Status.class);
+
 
                                     SessionFactory factory1 = configuration8.buildSessionFactory();
 
@@ -905,8 +966,13 @@ public class Test {
 
                                 case "1"://информация о всех товарах из базы данных
 
-                                    Configuration configuration9 = new Configuration().
-                                            addAnnotatedClass(Product.class).addAnnotatedClass(Category.class).addAnnotatedClass(Users.class);
+                                    Configuration configuration9 = new Configuration()
+                                            .addAnnotatedClass(Product.class)
+                                            .addAnnotatedClass(Category.class)
+                                            .addAnnotatedClass(Users.class)
+                                            .addAnnotatedClass(Order.class)
+                                            .addAnnotatedClass(Status.class);
+
 
                                     SessionFactory factory200 = configuration9.buildSessionFactory();
 
@@ -940,7 +1006,7 @@ public class Test {
                                     art = sc.nextLine();
                                     Users user = null;
 
-                                    Configuration configuration = new Configuration().addAnnotatedClass(Product.class).addAnnotatedClass(Category.class).addAnnotatedClass(Users.class);
+                                    Configuration configuration = new Configuration().addAnnotatedClass(Product.class).addAnnotatedClass(Category.class).addAnnotatedClass(Users.class).addAnnotatedClass(Order.class);
                                     SessionFactory factory = configuration.buildSessionFactory();
                                     Session session = null;
                                     try {
@@ -981,7 +1047,7 @@ public class Test {
                                     Users user1 = null;
 
 
-                                    Configuration configuration1 = new Configuration().addAnnotatedClass(Product.class).addAnnotatedClass(Category.class).addAnnotatedClass(Users.class);
+                                    Configuration configuration1 = new Configuration().addAnnotatedClass(Product.class).addAnnotatedClass(Category.class).addAnnotatedClass(Users.class).addAnnotatedClass(Order.class);
                                     SessionFactory factory1 = configuration1.buildSessionFactory();
                                     Session session1 = null;
                                     try {
@@ -1022,7 +1088,7 @@ public class Test {
 
                                     Users user2 = null;
 
-                                    Configuration configuration2 = new Configuration().addAnnotatedClass(Product.class).addAnnotatedClass(Category.class).addAnnotatedClass(Users.class);
+                                    Configuration configuration2 = new Configuration().addAnnotatedClass(Product.class).addAnnotatedClass(Category.class).addAnnotatedClass(Users.class).addAnnotatedClass(Order.class);
                                     SessionFactory factory2 = configuration2.buildSessionFactory();
                                     Session session2 = null;
                                     try {
@@ -1072,8 +1138,14 @@ public class Test {
                                     System.out.println("Введите верхнюю границу цену товара");
                                     endPriceProd = sc3.nextDouble();
 
-                                    Configuration configuration10 = new Configuration().
-                                            addAnnotatedClass(Product.class).addAnnotatedClass(Category.class).addAnnotatedClass(Users.class);
+                                    Configuration configuration10 = new Configuration()
+                                            .addAnnotatedClass(Product.class)
+                                            .addAnnotatedClass(Category.class)
+                                            .addAnnotatedClass(Users.class)
+                                            .addAnnotatedClass(Order.class)
+                                            .addAnnotatedClass(Status.class);
+
+
 
                                     SessionFactory factory201 = configuration10.buildSessionFactory();
 
@@ -1123,7 +1195,14 @@ public class Test {
 
 
         Configuration configuration12 = new Configuration().
-                addAnnotatedClass(Users.class).addAnnotatedClass(Product.class).addAnnotatedClass(Category.class);
+                addAnnotatedClass(Users.class)
+                .addAnnotatedClass(Product.class)
+                .addAnnotatedClass(Category.class)
+                .addAnnotatedClass(Order.class)
+                .addAnnotatedClass(Status.class);
+
+
+
 
         SessionFactory factory1 = configuration12.buildSessionFactory();
 
@@ -1163,7 +1242,13 @@ public class Test {
     public static boolean DeleteProdArtikul(String code) {
 
         Configuration configuration10 = new Configuration().
-                addAnnotatedClass(Product.class).addAnnotatedClass(Category.class).addAnnotatedClass(Users.class);
+                addAnnotatedClass(Product.class)
+                .addAnnotatedClass(Category.class)
+                .addAnnotatedClass(Users.class)
+                .addAnnotatedClass(Order.class)
+                .addAnnotatedClass(Status.class);
+
+
 
         SessionFactory factory201 = configuration10.buildSessionFactory();
 
