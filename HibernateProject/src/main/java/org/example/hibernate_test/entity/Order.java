@@ -5,6 +5,7 @@ import net.bytebuddy.dynamic.loading.InjectionClassLoader;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "orders")
@@ -15,17 +16,21 @@ public class Order {
     @Column(name = "id")
     private int id;
 
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "tovar_id")
-    private Product product;
+    @Column(name = "number")
+    private String number;
+
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "person_id")
     private Users user;
 
+     @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "tovar_id")
+    private Product product;
+
 
     @Column(name = "dAndT")
-    private String dAndT;
+    private LocalDateTime dAndT;
 
     @Column(name = "status")
     private Status status;
@@ -34,13 +39,22 @@ public class Order {
     public Order() {
     }
 
-    //Конструктор с параметрами
-    public Order(Product product, Users user, String dAndT, Status status) {
-        this.product = product;
+
+    public Order(String number, Users user, Product product, LocalDateTime dAndT, Status status) {
+        this.number = number;
         this.user = user;
+        this.product = product;
         this.dAndT = dAndT;
         this.status = status;
     }
+
+    public Order(String number, Users user, Product product, Status status) {
+        this.number = number;
+        this.user = user;
+        this.product = product;
+        this.status = status;
+    }
+
 
     public int getId() {
         return id;
@@ -50,12 +64,12 @@ public class Order {
         this.id = id;
     }
 
-    public Product getProduct() {
-        return product;
+    public String getNumber() {
+        return number;
     }
 
-    public void setProduct(Product product) {
-        this.product = product;
+    public void setNumber(String number) {
+        this.number = number;
     }
 
     public Users getUser() {
@@ -66,11 +80,19 @@ public class Order {
         this.user = user;
     }
 
-    public String getdAndT() {
+    public Product getProduct() {
+        return product;
+    }
+
+    public void setProduct(Product product) {
+        this.product = product;
+    }
+
+    public LocalDateTime getdAndT() {
         return dAndT;
     }
 
-    public void setdAndT(String dAndT) {
+    public void setdAndT(LocalDateTime dAndT) {
         this.dAndT = dAndT;
     }
 

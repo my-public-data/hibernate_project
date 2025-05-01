@@ -4,9 +4,14 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import java.util.UUID;
 
 import org.mindrot.jbcrypt.BCrypt;
 
@@ -959,6 +964,7 @@ public class Test {
                                     "\n3 - для просмотра списка товаров в корзине;" +
                                     "\n4 - для удаления товара из корзины;" +
                                     "\n5 - для фильтрации товаров по категории и по цене;" +
+                                    "\n6 - для оформления заказа;" +
                                     "\n0 - для выхода из меню пользователя");
                             z2 = input20.nextLine();
                             switch (z2) {
@@ -1146,7 +1152,6 @@ public class Test {
                                             .addAnnotatedClass(Status.class);
 
 
-
                                     SessionFactory factory201 = configuration10.buildSessionFactory();
 
                                     Session session201 = null;
@@ -1169,6 +1174,66 @@ public class Test {
                                     }
 
                                     break;
+
+                                case "6":
+                                    System.out.println("Оформить заказ");
+
+                                    // Получение уникальной строки - она будет номером заказа
+                                    String uuid = UUID.randomUUID().toString();
+
+
+                                    // Получение даты и времени
+                                    LocalDate date = LocalDate.now();
+                                    LocalTime time = LocalTime.now();
+                                    LocalDateTime current = LocalDateTime.of(date, time);
+
+
+                                    //Создаем лист заказа
+                                    List<Product> productorderList = new ArrayList<>();
+
+                                    Users user543 = null;
+
+
+                                    Configuration configuration543 = new Configuration()
+                                            .addAnnotatedClass(Product.class)
+                                            .addAnnotatedClass(Category.class)
+                                            .addAnnotatedClass(Users.class)
+                                            .addAnnotatedClass(Order.class)
+                                            .addAnnotatedClass(Status.class);
+                                    SessionFactory factory543 = configuration543.buildSessionFactory();
+                                    Session session543 = null;
+                                    try {
+                                        session543 = factory543.getCurrentSession();
+                                        session543.beginTransaction();
+                                        user543 = session543.get(Users.class, identificator);
+
+                                        //Получаем товары из корзины пользователя...
+                                        for (Product product : user543.getProductList()) {
+                                            //...и добавляем их в лист заказа
+                                            productorderList.add(product);
+
+                                            //... и удаляем товары из корзины пользователя
+                                            product.getUsersList().remove(user543);
+                                        }
+
+
+                                        for (Product productorder : productorderList) {
+                                            Order newOrder = new Order(uuid, user543, productorder, current, Status.Оформлен);
+                                            session543.persist(newOrder);
+                                        }
+
+
+                                        session543.getTransaction().commit();
+
+
+                                    } finally {
+                                        session543.close();
+                                        factory543.close();
+                                    }
+
+
+                                    break;
+
                                 case "0":
                                     break;
                                 default:
@@ -1200,8 +1265,6 @@ public class Test {
                 .addAnnotatedClass(Category.class)
                 .addAnnotatedClass(Order.class)
                 .addAnnotatedClass(Status.class);
-
-
 
 
         SessionFactory factory1 = configuration12.buildSessionFactory();
@@ -1247,7 +1310,6 @@ public class Test {
                 .addAnnotatedClass(Users.class)
                 .addAnnotatedClass(Order.class)
                 .addAnnotatedClass(Status.class);
-
 
 
         SessionFactory factory201 = configuration10.buildSessionFactory();
