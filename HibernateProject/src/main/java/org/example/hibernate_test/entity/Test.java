@@ -266,7 +266,7 @@ public class Test {
                             System.out.println("Зафиксированный номер телефона -" + user.getTelephone_number());
                             System.out.println("_______________________________________________________________________________");
 
-                            // user.setSalt(salt);
+
 
 
 //_____________________________________________________________________________________________________________________________
@@ -341,9 +341,9 @@ public class Test {
                                 String password100 = input3.nextLine();
                                 password_0 = password100;
                                 String salt = BCrypt.gensalt();
-                                // salt2 = salt;
+
                                 String hashedPassword = BCrypt.hashpw(password100, salt);
-                                // hashedPassword = "{bcrypt}" + hashedPassword;
+
                                 while (!user.setPassword(hashedPassword)) ;
                                 System.out.println("Вы ввели пароль: " + password_0);
                                 System.out.println("Если пароль введен неправильно - нажмите 0, если все правильно - введите любое значение, отличное от 0");
@@ -657,8 +657,6 @@ public class Test {
 
 //_____________________________________________________________________________________________________________________________________
 
-
-                                            ////////////////////////////////////////////////////////////////////////////////////////////////////
                                             Configuration configuration123 = new Configuration()
                                                     .addAnnotatedClass(Users.class)
                                                     .addAnnotatedClass(Product.class)
@@ -724,7 +722,7 @@ public class Test {
                                                 session123.close();
                                                 factory123.close();
                                             }
-                                            ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 //________________________________________________________________________________________________________________________________________________________________________________
 
                                             do {
@@ -782,7 +780,7 @@ public class Test {
                                                             .addAnnotatedClass(Status.class);
 
 
-                                                    ;
+
                                                     SessionFactory factory124 = configuration.buildSessionFactory();
 
                                                     Session session124 = null;
@@ -792,9 +790,9 @@ public class Test {
                                                         session124.beginTransaction();
                                                         System.out.println("Введите артикул товара (формат ввода: первые 2 символа - заглавные буквы, остальные 4 символа - цифры)");
 
-                                                        ////////////////////////////
+
                                                         while (!product.setCode(scanner20000.nextLine())) ;
-                                                        /////////////////////////////////////////
+
 
                                                         List<Product> productList = session124.createQuery("from Product").getResultList();
 
@@ -829,7 +827,6 @@ public class Test {
 
                                             }
                                             while (console20000.nextInt() == 0);
-                                            // здесь писать условие по сохранению при необходимости
 
                                             System.out.println("Итоговая проверка введенных данных о товаре:");
                                             //System.out.println("Вы ввели id категории товара: " + product.getId());
@@ -1006,6 +1003,7 @@ public class Test {
 
                                     System.out.println("Добавление товара в корзину");
                                     int count = 0;
+                                    int n = 0;
                                     String art;
                                     Scanner sc = new Scanner(System.in);
                                     System.out.println("Введите артикул товара, который хотите добавить в корзину");
@@ -1022,15 +1020,28 @@ public class Test {
 
                                         List<Product> productList = session.createQuery("from Product").getResultList();
 
-                                        for (Product p : productList) {
-                                            if (p.getCode().equals(art)) {
-                                                count++;
-                                                user.addUserToProduct(p);
+
+                                        for (Product pruductOfUser : user.getProductList()) {
+                                            if (pruductOfUser.getCode().equals(art)) {
+                                                n++;
+                                            }
+
+                                        }
+
+                                        if (n > 0) {
+                                            System.out.println("Данный товар уже находится в корзине");
+                                        } else {
+                                            for (Product p : productList) {
+                                                if (p.getCode().equals(art)) {
+                                                    count++;
+                                                    user.addUserToProduct(p);
+                                                }
+                                            }
+                                            if (count == 0) {
+                                                System.out.println("Товара с данным артикулом не существует");
                                             }
                                         }
-                                        if (count == 0) {
-                                            System.out.println("Товара с данным артикулом не существует");
-                                        }
+
 
                                         session.getTransaction().commit();
 
@@ -1047,9 +1058,8 @@ public class Test {
 
                                 case "3":
                                     System.out.println("Просмотр списка товаров в корзине");
-                                    ////////////////////////////////////////////////////////
+
                                     double sum = 0;
-                                    ////////////////////////////////////////////////////////
                                     Users user1 = null;
 
 
@@ -1061,9 +1071,7 @@ public class Test {
                                         session1.beginTransaction();
                                         user1 = session1.get(Users.class, identificator);
 
-                                        //List<Product> productList = session.createQuery("from Product").getResultList();
                                         System.out.println("У Вас в корзине лежат следующие товары:");
-                                        //System.out.println(user1.getProductList());
 
                                         for (Product product : user1.getProductList()) {
                                             sum = sum + product.getProduct_price();
@@ -1102,7 +1110,6 @@ public class Test {
                                         session2.beginTransaction();
                                         user2 = session2.get(Users.class, identificator);
 
-                                        //user2.getProductList().remove(0);
 
                                         for (Product product : user2.getProductList()) {
                                             if (product.getCode().equals(art2)) {
