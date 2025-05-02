@@ -267,8 +267,6 @@ public class Test {
                             System.out.println("_______________________________________________________________________________");
 
 
-
-
 //_____________________________________________________________________________________________________________________________
                             if (КолвоЭлементовКласса == 0) {
                                 user.setRole("администратор");
@@ -519,17 +517,48 @@ public class Test {
                     while (!z.equals("0")) {
                         do {
                             System.out.println("Введите:" +
-                                    "\n1 - для добавление категории товаров;" +
-                                    "\n2 - для добавления товара (товар можно добавить, если создана соответствующая категория товаров);" + //2+
-                                    "\n3 - для удаления товара по артикулу в списке (со списком товаров (который в т.ч. содержит артикул товара) можно ознакомиться, если нажать 3 в меню администратора);" + //3+
-                                    "\n4 - для просмотра информации о всех товарах;" + //4+
-                                    "\n5 - для просмотра информации о всех зарегистрированных пользователях;" + //5+
-                                    "\n6 - для смены роли пользователю (с информацией о пользователях (в т.ч. о том - у какого пользователя какая роль) можно ознакомиться, если нажать 4 в меню администратора);" + //6
+                                    "\n1 - для просмотра списка всех категорий товаров;" +
+                                    "\n2 - для добавление категории товаров;" +
+                                    "\n3 - для добавления товара (товар можно добавить, если создана соответствующая категория товаров);" + //2+
+                                    "\n4 - для удаления товара по артикулу в списке (со списком товаров (который в т.ч. содержит артикул товара) можно ознакомиться, если нажать 3 в меню администратора);" + //3+
+                                    "\n5 - для просмотра информации о всех товарах;" + //4+
+                                    "\n6 - для просмотра информации о всех зарегистрированных пользователях;" + //5+
+                                    "\n7 - для смены роли пользователю (с информацией о пользователях (в т.ч. о том - у какого пользователя какая роль) можно ознакомиться, если нажать 4 в меню администратора);" + //6
                                     "\n0 - для выхода из меню администратора");
                             z = inp.nextLine();
                             switch (z) {
-
                                 case "1":
+                                    Configuration configuration20 = new Configuration()
+                                            .addAnnotatedClass(Users.class)
+                                            .addAnnotatedClass(Product.class)
+                                            .addAnnotatedClass(Category.class)
+                                            .addAnnotatedClass(Order.class)
+                                            .addAnnotatedClass(Status.class);
+
+
+                                    SessionFactory factory20 = configuration20.buildSessionFactory();
+
+                                    Session session20 = null;
+                                    try {
+                                        session20 = factory20.getCurrentSession();
+                                        session20.beginTransaction();
+                                        List<Category> categoryList = new ArrayList<>();
+
+                                        categoryList = session20.createQuery("from Category").getResultList();
+                                        for (Category category : categoryList) {
+                                            System.out.println(category);
+                                        }
+                                        session20.getTransaction().commit();
+
+                                        System.out.println("Выше выведена информация о всех категориях товаров из базы данных");
+                                    } finally {
+                                        session20.close();
+                                        factory20.close();
+                                    }
+
+                                    break;
+
+                                case "2":
 
                                     System.out.println("Добавление категории товаров");
                                     Category category = new Category();
@@ -622,7 +651,9 @@ public class Test {
                                     break;
 
 
-                                case "2": // добавление товара
+                                case "3": // добавление товара
+
+                                    String categor = null;
 
 
                                     Product product = new Product();  // СОЗДАЕМ ОБЪЕКТ КЛАССА
@@ -693,7 +724,16 @@ public class Test {
 
                                                         for (Category cat : categories) {
                                                             if (cat.getId() == value) {
+                                                                categor = cat.getName();
                                                                 isTrue = true;
+
+                                                            }
+                                                            if (isTrue) {
+
+                                                                //System.out.println("id "+value +" соответствует категории - " + categor);
+                                                                categor = cat.getName();
+
+                                                                break;
                                                             }
                                                         }
                                                         if (isTrue == false) {
@@ -705,7 +745,9 @@ public class Test {
                                                     //проверка на тип "true"
                                                     while (!isTrue);
                                                     category1 = session123.get(Category.class, value);
-                                                    System.out.println("Вы ввели " + value); // вывод текста если введенное значение соответствует true
+                                                    System.out.println("Вы ввели значение id = " + value + " ,что соответствует категории - " + categor); // вывод текста если введенное значение соответствует true
+
+
                                                     System.out.println("Если значение id введено неправильно - введите 0, иначе введите любое значение целого числа типа int, отличное от 0");
                                                     //проверка на тип "int", если хотим изменить введенное значение
                                                     while (!console10000.hasNextInt()) {
@@ -780,7 +822,6 @@ public class Test {
                                                             .addAnnotatedClass(Status.class);
 
 
-
                                                     SessionFactory factory124 = configuration.buildSessionFactory();
 
                                                     Session session124 = null;
@@ -829,7 +870,7 @@ public class Test {
                                             while (console20000.nextInt() == 0);
 
                                             System.out.println("Итоговая проверка введенных данных о товаре:");
-                                            //System.out.println("Вы ввели id категории товара: " + product.getId());
+                                            System.out.println("Вы ввели категорию товара: - " + categor);
                                             System.out.println("Вы ввели наименование товара: " + product.getProduct_name());
                                             System.out.println("Вы ввели цену: " + product.getProduct_price());
                                             System.out.println("Вы ввели артикул товара: " + product.getCode());
@@ -855,7 +896,7 @@ public class Test {
                                     }
 
                                     break;
-                                case "3":
+                                case "4":
 
                                     Product product1000 = new Product();
                                     List<Product> products = new ArrayList<>();
@@ -867,7 +908,7 @@ public class Test {
 
                                     break;
 
-                                case "4"://информация о всех товарах из базы данных
+                                case "5"://информация о всех товарах из базы данных
 
                                     Configuration configuration5 = new Configuration()
                                             .addAnnotatedClass(Users.class)
@@ -900,7 +941,7 @@ public class Test {
                                     break;
 
 
-                                case "5":
+                                case "6":
                                     //  "Информация о зарегистрированных пользователях:"
 
                                     Configuration configuration8 = new Configuration().
@@ -932,7 +973,7 @@ public class Test {
                                         factory1.close();
                                     }
                                     break;
-                                case "6":
+                                case "7":
                                     System.out.println("Смена роли пользователю: (с информацией о пользователях (в т.ч.о том - у какого пользователя какая роль) можно ознакомиться, если нажать 4 в меню администратора)");
                                     if (!smenaRoli(us3.getId(), us3.getRole(), users)) {
                                         System.out.println("Пользователя с таким id нет среди зарегистрированных пользователей");
@@ -1071,16 +1112,22 @@ public class Test {
                                         session1.beginTransaction();
                                         user1 = session1.get(Users.class, identificator);
 
-                                        System.out.println("У Вас в корзине лежат следующие товары:");
+                                        if(user1.getProductList().isEmpty())
 
-                                        for (Product product : user1.getProductList()) {
-                                            sum = sum + product.getProduct_price();
-                                            System.out.println(product);
+                                        {
+                                            System.out.println("Корзина пуста");
+                                        } else {
+
+                                            System.out.println("У Вас в корзине лежат следующие товары:");
+
+                                            for (Product product : user1.getProductList()) {
+                                                sum = sum + product.getProduct_price();
+                                                System.out.println(product);
+
+                                            }
+                                            System.out.println("Итоговая цена  = " + sum);
 
                                         }
-                                        System.out.println("Итоговая цена  = " + sum);
-
-
                                         session1.getTransaction().commit();
 
 
@@ -1131,6 +1178,10 @@ public class Test {
                                     } finally {
                                         session2.close();
                                         factory2.close();
+                                    }
+                                    // Если товар в корзине есть
+                                    if (v != 0) {
+                                        System.out.println("Товар с артикулом " + art2 + " удален из корзины");
                                     }
 
                                     break;
@@ -1237,6 +1288,61 @@ public class Test {
                                         session543.close();
                                         factory543.close();
                                     }
+
+                                    Configuration configuration115 = new Configuration()
+                                            .addAnnotatedClass(Product.class)
+                                            .addAnnotatedClass(Category.class)
+                                            .addAnnotatedClass(Users.class)
+                                            .addAnnotatedClass(Order.class)
+                                            .addAnnotatedClass(Status.class);
+
+
+                                    SessionFactory factory115 = configuration115.buildSessionFactory();
+
+                                    Session session115 = null;
+                                    try {
+                                        session115 = factory115.getCurrentSession();
+                                        session115.beginTransaction();
+
+                                        double price = 0;
+                                        List<Order> orderList = new ArrayList<>();
+                                        orderList = session115.createQuery("from Order").getResultList();
+                                        System.out.println("Информация о заказе:");
+                                        System.out.println("Номер заказа: " + uuid);
+
+                                        //дата и время
+                                        DateTimeFormatter dtf1 = DateTimeFormatter.ofPattern("dd.MM.yy, HH:mm");
+                                        String text = dtf1.format(current);
+                                        System.out.println("Дата и время заказа: " + text);
+
+                                        // Получение статуса заказа
+                                        for (Order order : orderList) {
+                                            if (order.getNumber().equals(uuid)) {
+                                                System.out.println("Статус заказа: " + order.getStatus());
+                                                break;
+                                            }
+                                        }
+
+                                        System.out.println("Список товаров заказа:");
+
+                                        for (Order order : orderList) {
+                                            if (order.getNumber().equals(uuid)) {
+
+                                                System.out.println("id товара - " + order.getProduct().getId() + " , артикул товара - " + order.getProduct().getCode() + ", наименование товара - " + order.getProduct().getProduct_name() + ", цена товара - " + order.getProduct().getProduct_price());
+                                                price = order.getProduct().getProduct_price() + price;
+                                            }
+                                        }
+
+                                        System.out.println("Итоговая цена: " + price);
+
+
+                                        session115.getTransaction().commit();
+
+                                    } finally {
+                                        session115.close();
+                                        factory115.close();
+                                    }
+                                    System.out.println();
 
 
                                     break;
