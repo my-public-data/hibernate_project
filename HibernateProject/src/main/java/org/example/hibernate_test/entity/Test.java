@@ -1187,20 +1187,44 @@ public class Test {
                                     break;
 
                                 case "5":
-
-                                    System.out.println("Поиск подходящих товаров по категории и по цене");
-
                                     Scanner sc3 = new Scanner(System.in);
-                                    int findIdProd = 0;
+                                    System.out.println("Поиск подходящих товаров по категории и по цене");
                                     System.out.println("Введите id категории товара");
-                                    findIdProd = sc3.nextInt();
-                                    Double startPriceProd;
-                                    Double endPriceProd;
+
+                                    //int findIdProd = 0;
+                                    //findIdProd = sc3.nextInt();
+
+
+                                    ////////////////////////////////
+                                    while (!sc3.hasNextInt()) {
+                                        sc3.next();
+                                        System.out.println("Вы ввели не целое число (не значение типа int), попробуйте еще раз");
+                                    }
+                                    int findIdProd = sc3.nextInt();
+                                    /////////////////////////////////////
+                                    //Double startPriceProd;
+                                    //Double endPriceProd;
                                     System.out.println("Введите стартовую цену товара");
 
-                                    startPriceProd = sc3.nextDouble();
+                                    ///////////////////////////////////////
+                                    while (!sc3.hasNextDouble()) {
+                                        sc3.next();
+                                        System.out.println("Вы ввели не значение типа double, попробуйте еще раз");
+                                    }
+                                    Double startPriceProd = sc3.nextDouble();
+                                    //////////////////////////////////////
+
+                                   // startPriceProd = sc3.nextDouble();
                                     System.out.println("Введите верхнюю границу цену товара");
-                                    endPriceProd = sc3.nextDouble();
+                                    //endPriceProd = sc3.nextDouble();
+
+                                    //////////////////////////////////////////////////
+                                    while (!sc3.hasNextDouble()) {
+                                        sc3.next();
+                                        System.out.println("Вы ввели не значение типа double, попробуйте еще раз");
+                                    }
+                                    Double endPriceProd = sc3.nextDouble();
+                                    /////////////////////////////////////////////////
 
                                     Configuration configuration10 = new Configuration()
                                             .addAnnotatedClass(Product.class)
