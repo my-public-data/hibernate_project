@@ -1112,9 +1112,7 @@ public class Test {
                                         session1.beginTransaction();
                                         user1 = session1.get(Users.class, identificator);
 
-                                        if(user1.getProductList().isEmpty())
-
-                                        {
+                                        if (user1.getProductList().isEmpty()) {
                                             System.out.println("Корзина пуста");
                                         } else {
 
@@ -1187,23 +1185,69 @@ public class Test {
                                     break;
 
                                 case "5":
+                                    boolean isCategory = false;
+                                    String nameCategory = null;
+                                    int findIdProd;
                                     Scanner sc3 = new Scanner(System.in);
+
+                                    Configuration configuration12345 = new Configuration()
+                                            .addAnnotatedClass(Product.class)
+                                            .addAnnotatedClass(Category.class)
+                                            .addAnnotatedClass(Users.class)
+                                            .addAnnotatedClass(Order.class)
+                                            .addAnnotatedClass(Status.class);
+
+                                    SessionFactory factory12345 = configuration12345.buildSessionFactory();
+
+                                    Session session12345 = null;
+
+                                    try {
+                                        session12345 = factory12345.getCurrentSession();
+                                        session12345.beginTransaction();
+
+
                                     System.out.println("Поиск подходящих товаров по категории и по цене");
-                                    System.out.println("Введите id категории товара");
+                                    //System.out.println("Введите id категории товара");
+                                        //int findIdProd;
+                                    do {
+                                        System.out.println("Введите id категории товара");
+                                        // Проверка на тип int
+                                        while (!sc3.hasNextInt()) {
+                                            sc3.next();
+                                            System.out.println("Вы ввели не целое число (не значение типа int), попробуйте еще раз");
+                                        }
+                                        findIdProd = sc3.nextInt();
 
-                                    //int findIdProd = 0;
-                                    //findIdProd = sc3.nextInt();
+                                        List<Category> categoryList1 = session12345.createQuery("from Category").getResultList();
+                                        for (Category cat : categoryList1) {
+                                            if (cat.getId() == findIdProd) {
+                                               // nameCategory = cat.getName();
+                                                isCategory = true;
+                                            }
+                                           if (isCategory){
+                                               nameCategory = cat.getName();
+                                               System.out.println("Вы ввели значение, id = " + findIdProd + ", что соответствует категории  - " + nameCategory);
+                                               break;
+                                           }
+                                        }
+                                        if (isCategory == false) {
+                                            System.out.println("Отсутствует категория с указанным Вами id");
+                                        }
 
-
-                                    ////////////////////////////////
-                                    while (!sc3.hasNextInt()) {
-                                        sc3.next();
-                                        System.out.println("Вы ввели не целое число (не значение типа int), попробуйте еще раз");
                                     }
-                                    int findIdProd = sc3.nextInt();
-                                    /////////////////////////////////////
-                                    //Double startPriceProd;
-                                    //Double endPriceProd;
+                                    while (!isCategory);
+
+                                    }
+
+                                    finally {
+                                        session12345.close();
+                                        factory12345.close();
+                                    }
+
+
+
+                                    //_______________________________________________________________________________
+
                                     System.out.println("Введите стартовую цену товара");
 
                                     ///////////////////////////////////////
@@ -1214,7 +1258,7 @@ public class Test {
                                     Double startPriceProd = sc3.nextDouble();
                                     //////////////////////////////////////
 
-                                   // startPriceProd = sc3.nextDouble();
+                                    // startPriceProd = sc3.nextDouble();
                                     System.out.println("Введите верхнюю границу цену товара");
                                     //endPriceProd = sc3.nextDouble();
 
