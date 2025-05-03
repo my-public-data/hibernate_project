@@ -18,25 +18,7 @@ import org.mindrot.jbcrypt.BCrypt;
 public class Test {
     static int КолвоЭлементовКласса;
     static int identificator;
-
-    //static int count;
     static String password_0;
-
-    Test info = new Test();
-
-
-    interface ProductChecks {
-        boolean check(Product p);
-    }
-
-    void testProducts(ArrayList<Product> products, ProductChecks checks) {
-        for (Product p : products) {
-            if (checks.check(p)) {
-                System.out.println(p);
-            }
-        }
-    }
-
 
     public static void main(String[] args) {
 
@@ -656,7 +638,7 @@ public class Test {
                                     String categor = null;
 
 
-                                    Product product = new Product();  // СОЗДАЕМ ОБЪЕКТ КЛАССА
+                                    Product product = new Product();
 
                                     Configuration configuration = new Configuration()
                                             .addAnnotatedClass(Users.class)
@@ -672,7 +654,7 @@ public class Test {
                                     String a2;
                                     try {
                                         session5000 = factory5000.getCurrentSession();
-                                        session5000.beginTransaction(); //!!!!!!!!!!!!!!!!
+                                        session5000.beginTransaction();
                                         do {
                                             Boolean isInTable = false;
                                             int Ident;
@@ -684,7 +666,7 @@ public class Test {
                                             Scanner input2 = new Scanner(System.in);
 //___________________________________________________________________________________________________________________________________________________________________________________________
 
-                                            Scanner input4 = new Scanner(System.in);   //!!!!!!!!!!!!!
+                                            Scanner input4 = new Scanner(System.in);
 
 //_____________________________________________________________________________________________________________________________________
 
@@ -730,7 +712,7 @@ public class Test {
                                                             }
                                                             if (isTrue) {
 
-                                                                //System.out.println("id "+value +" соответствует категории - " + categor);
+
                                                                 categor = cat.getName();
 
                                                                 break;
@@ -822,7 +804,7 @@ public class Test {
                                                             .addAnnotatedClass(Status.class);
 
 
-                                                    SessionFactory factory124 = configuration.buildSessionFactory();
+                                                    SessionFactory factory124 = configuration124.buildSessionFactory();
 
                                                     Session session124 = null;
 
@@ -997,18 +979,49 @@ public class Test {
                     while (!z2.equals("0")) {
                         do {
                             System.out.println("Введите:" +
-                                    "\n1 - просмотра списка товаров;" +
-                                    "\n2 - для добавления товаров в корзину; " +
-                                    "\n3 - для просмотра списка товаров в корзине;" +
-                                    "\n4 - для удаления товара из корзины;" +
-                                    "\n5 - для фильтрации товаров по категории и по цене;" +
-                                    "\n6 - для оформления заказа;" +
+                                    "\n1 - для просмотра категорий товаров;" +
+                                    "\n2 - для просмотра списка товаров;" +
+                                    "\n3 - для добавления товаров в корзину; " +
+                                    "\n4 - для просмотра списка товаров в корзине;" +
+                                    "\n5 - для удаления товара из корзины;" +
+                                    "\n6 - для фильтрации товаров по категории и по цене;" +
+                                    "\n7 - для оформления заказа;" +
                                     "\n0 - для выхода из меню пользователя");
                             z2 = input20.nextLine();
                             switch (z2) {
 
+                                case "1":
 
-                                case "1"://информация о всех товарах из базы данных
+                                    Configuration configuration2011 = new Configuration()
+                                            .addAnnotatedClass(Users.class)
+                                            .addAnnotatedClass(Product.class)
+                                            .addAnnotatedClass(Category.class)
+                                            .addAnnotatedClass(Order.class)
+                                            .addAnnotatedClass(Status.class);
+
+
+                                    SessionFactory factory2011 = configuration2011.buildSessionFactory();
+
+                                    Session session2011 = null;
+                                    try {
+                                        session2011 = factory2011.getCurrentSession();
+                                        session2011.beginTransaction();
+                                        List<Category> categoryList = new ArrayList<>();
+
+                                        categoryList = session2011.createQuery("from Category").getResultList();
+                                        for (Category category : categoryList) {
+                                            System.out.println(category);
+                                        }
+                                        session2011.getTransaction().commit();
+
+                                        System.out.println("Выше выведена информация о всех категориях товаров из базы данных");
+                                    } finally {
+                                        session2011.close();
+                                        factory2011.close();
+                                    }
+
+                                    break;
+                                case "2"://информация о всех товарах из базы данных
 
                                     Configuration configuration9 = new Configuration()
                                             .addAnnotatedClass(Product.class)
@@ -1040,7 +1053,7 @@ public class Test {
 
                                     break;
 
-                                case "2":
+                                case "3":
 
                                     System.out.println("Добавление товара в корзину");
                                     int count = 0;
@@ -1097,7 +1110,7 @@ public class Test {
 
                                     break;
 
-                                case "3":
+                                case "4":
                                     System.out.println("Просмотр списка товаров в корзине");
 
                                     double sum = 0;
@@ -1136,7 +1149,7 @@ public class Test {
 
                                     break;
 
-                                case "4":
+                                case "5":
                                     System.out.println("Удаление товара из корзины");
                                     int v = 0; //счетчик
                                     int z = 0;
@@ -1147,7 +1160,12 @@ public class Test {
 
                                     Users user2 = null;
 
-                                    Configuration configuration2 = new Configuration().addAnnotatedClass(Product.class).addAnnotatedClass(Category.class).addAnnotatedClass(Users.class).addAnnotatedClass(Order.class);
+                                    Configuration configuration2 = new Configuration()
+                                            .addAnnotatedClass(Product.class)
+                                            .addAnnotatedClass(Category.class)
+                                            .addAnnotatedClass(Users.class)
+                                            .addAnnotatedClass(Order.class)
+                                            .addAnnotatedClass(Status.class);
                                     SessionFactory factory2 = configuration2.buildSessionFactory();
                                     Session session2 = null;
                                     try {
@@ -1184,7 +1202,7 @@ public class Test {
 
                                     break;
 
-                                case "5":
+                                case "6":
                                     boolean isCategory = false;
                                     String nameCategory = null;
                                     int findIdProd;
@@ -1206,69 +1224,60 @@ public class Test {
                                         session12345.beginTransaction();
 
 
-                                    System.out.println("Поиск подходящих товаров по категории и по цене");
-                                    //System.out.println("Введите id категории товара");
-                                        //int findIdProd;
-                                    do {
-                                        System.out.println("Введите id категории товара");
-                                        // Проверка на тип int
-                                        while (!sc3.hasNextInt()) {
-                                            sc3.next();
-                                            System.out.println("Вы ввели не целое число (не значение типа int), попробуйте еще раз");
-                                        }
-                                        findIdProd = sc3.nextInt();
+                                        System.out.println("Поиск подходящих товаров по категории и по цене");
 
-                                        List<Category> categoryList1 = session12345.createQuery("from Category").getResultList();
-                                        for (Category cat : categoryList1) {
-                                            if (cat.getId() == findIdProd) {
-                                               // nameCategory = cat.getName();
-                                                isCategory = true;
+                                        do {
+                                            System.out.println("Введите id категории товара");
+                                            // Проверка на тип int
+                                            while (!sc3.hasNextInt()) {
+                                                sc3.next();
+                                                System.out.println("Вы ввели не целое число (не значение типа int), попробуйте еще раз");
                                             }
-                                           if (isCategory){
-                                               nameCategory = cat.getName();
-                                               System.out.println("Вы ввели значение, id = " + findIdProd + ", что соответствует категории  - " + nameCategory);
-                                               break;
-                                           }
+                                            findIdProd = sc3.nextInt();
+
+                                            List<Category> categoryList1 = session12345.createQuery("from Category").getResultList();
+                                            for (Category cat : categoryList1) {
+                                                if (cat.getId() == findIdProd) {
+
+                                                    isCategory = true;
+                                                }
+                                                if (isCategory) {
+                                                    nameCategory = cat.getName();
+                                                    System.out.println("Вы ввели значение, id = " + findIdProd + ", что соответствует категории  - " + nameCategory);
+                                                    break;
+                                                }
+                                            }
+                                            if (isCategory == false) {
+                                                System.out.println("Отсутствует категория с указанным Вами id");
+                                            }
+
                                         }
-                                        if (isCategory == false) {
-                                            System.out.println("Отсутствует категория с указанным Вами id");
-                                        }
+                                        while (!isCategory);
 
-                                    }
-                                    while (!isCategory);
-
-                                    }
-
-                                    finally {
+                                    } finally {
                                         session12345.close();
                                         factory12345.close();
                                     }
-
 
 
                                     //_______________________________________________________________________________
 
                                     System.out.println("Введите стартовую цену товара");
 
-                                    ///////////////////////////////////////
+
                                     while (!sc3.hasNextDouble()) {
                                         sc3.next();
                                         System.out.println("Вы ввели не значение типа double, попробуйте еще раз");
                                     }
                                     Double startPriceProd = sc3.nextDouble();
-                                    //////////////////////////////////////
 
-                                    // startPriceProd = sc3.nextDouble();
-                                    System.out.println("Введите верхнюю границу цену товара");
-                                    //endPriceProd = sc3.nextDouble();
+                                    System.out.println("Введите верхнюю границу цены товара");
 
-                                    //////////////////////////////////////////////////
                                     while (!sc3.hasNextDouble()) {
                                         sc3.next();
                                         System.out.println("Вы ввели не значение типа double, попробуйте еще раз");
                                     }
                                     Double endPriceProd = sc3.nextDouble();
-                                    /////////////////////////////////////////////////
 
                                     Configuration configuration10 = new Configuration()
                                             .addAnnotatedClass(Product.class)
@@ -1301,7 +1310,7 @@ public class Test {
 
                                     break;
 
-                                case "6":
+                                case "7":
                                     System.out.println("Оформить заказ");
 
                                     // Получение уникальной строки - она будет номером заказа
