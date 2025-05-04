@@ -8,10 +8,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
-import java.util.UUID;
+import java.util.*;
 
 import org.mindrot.jbcrypt.BCrypt;
 
@@ -142,9 +139,9 @@ public class Test {
 
                                     System.out.println("Введите email (значение не может быть пустым)"); // Формат  первая буква - заглавная
 
-
-                                    while (!user.setEmail(input2.nextLine())) ;
-
+                                    //////////////////////////
+                                    while (!user.setEmail(input2.nextLine().toLowerCase())) ;
+                                    /////////////////////////////
                                     Configuration configuration2 = new Configuration()
                                             .addAnnotatedClass(Users.class)
                                             .addAnnotatedClass(Product.class)
@@ -501,11 +498,12 @@ public class Test {
                             System.out.println("Введите:" +
                                     "\n1 - для просмотра списка всех категорий товаров;" +
                                     "\n2 - для добавление категории товаров;" +
-                                    "\n3 - для добавления товара (товар можно добавить, если создана соответствующая категория товаров);" + //2+
-                                    "\n4 - для удаления товара по артикулу в списке (со списком товаров (который в т.ч. содержит артикул товара) можно ознакомиться, если нажать 3 в меню администратора);" + //3+
-                                    "\n5 - для просмотра информации о всех товарах;" + //4+
-                                    "\n6 - для просмотра информации о всех зарегистрированных пользователях;" + //5+
-                                    "\n7 - для смены роли пользователю (с информацией о пользователях (в т.ч. о том - у какого пользователя какая роль) можно ознакомиться, если нажать 4 в меню администратора);" + //6
+                                    "\n3 - для добавления товара (товар можно добавить, если создана соответствующая категория товаров);" +
+                                    "\n4 - для удаления товара по артикулу в списке (со списком товаров (который в т.ч. содержит артикул товара) можно ознакомиться, если нажать 5 в меню администратора);" +
+                                    "\n5 - для просмотра информации о всех товарах;" +
+                                    "\n6 - для просмотра информации о всех зарегистрированных пользователях;" +
+                                    "\n7 - для смены роли пользователю (с информацией о пользователях (в т.ч. о том - у какого пользователя какая роль) можно ознакомиться, если нажать 6 в меню администратора);" +
+                                    "\n8 - для просмотра списка заказов;" +
                                     "\n0 - для выхода из меню администратора");
                             z = inp.nextLine();
                             switch (z) {
@@ -962,6 +960,77 @@ public class Test {
                                     }
                                     break;
 
+                                case "8":
+                                    int i;
+                                    Configuration configuration1150 = new Configuration()
+                                            .addAnnotatedClass(Product.class)
+                                            .addAnnotatedClass(Category.class)
+                                            .addAnnotatedClass(Users.class)
+                                            .addAnnotatedClass(Order.class)
+                                            .addAnnotatedClass(Status.class);
+
+
+                                    SessionFactory factory1150 = configuration1150.buildSessionFactory();
+
+                                    Session session1150 = null;
+                                    try {
+                                        session1150 = factory1150.getCurrentSession();
+                                        session1150.beginTransaction();
+
+                                        double price = 0;
+                                        List<Order> orderList = new ArrayList<>();
+                                        orderList = session1150.createQuery("from Order").getResultList();
+
+
+                                        System.out.println("ИНФОРМАЦИЯ ОБО ВСЕХ ЗАКАЗАХ:");
+                                        System.out.println();
+                                        // Лист, чтобы разместить номера заказов без повтора
+                                        HashSet<String> hashList = new HashSet<>();
+                                        // Получаю номера всех заказов
+                                        for (Order o : orderList) {
+                                            // Заполняю поэлементно Hash лист
+                                            hashList.add(o.getNumber());
+                                        }
+
+                                        for (String hl : hashList) {
+                                            for (Order order : orderList) {
+                                                if (hl.equals(order.getNumber())) {
+                                                    System.out.println("Номер заказа: " + order.getNumber());
+                                                    System.out.println("Статус заказа: " + order.getStatus());
+
+                                                    DateTimeFormatter dtf1 = DateTimeFormatter.ofPattern("dd.MM.yy, HH:mm");
+                                                    String text = dtf1.format(order.getdAndT());
+                                                    System.out.println("Дата и время заказа: " + text);
+                                                    System.out.println("id заказчика - " + order.getUser().getId() + ", ФИО заказчика - " + order.getUser().getSurname() + " " + order.getUser().getName() + " " + order.getUser().getPatronymic());
+
+                                                    System.out.println("Список товаров заказа:");
+                                                    price = 0;
+                                                    for (Order ord : orderList) {
+                                                        if (ord.getNumber().equals(order.getNumber())) {
+                                                            System.out.println("id товара - " + order.getProduct().getId() + " , артикул товара - " + order.getProduct().getCode() + ", наименование товара - " + order.getProduct().getProduct_name() + ", цена товара - " + order.getProduct().getProduct_price());
+                                                            price = order.getProduct().getProduct_price() + price;
+                                                        }
+                                                    }
+                                                    System.out.println("Итоговая цена заказа: " + price);
+                                                    break;
+                                                }
+                                            }
+                                            System.out.println();
+                                        }
+
+                                        System.out.println("Итого количество заказов у всех пользователей: " + hashList.size());
+
+                                        session1150.getTransaction().commit();
+
+                                    } finally {
+                                        session1150.close();
+                                        factory1150.close();
+                                    }
+                                    System.out.println();
+
+
+                                    break;
+
 
                                 default:
                                     System.out.println("Введите корректное значение");
@@ -1408,9 +1477,11 @@ public class Test {
                                                 System.out.println("id товара - " + order.getProduct().getId() + " , артикул товара - " + order.getProduct().getCode() + ", наименование товара - " + order.getProduct().getProduct_name() + ", цена товара - " + order.getProduct().getProduct_price());
                                                 price = order.getProduct().getProduct_price() + price;
                                             }
+                                            System.out.println("Итоговая цена: " + price);
                                         }
 
-                                        System.out.println("Итоговая цена: " + price);
+                                        //System.out.println("Итоговая цена: " + price);
+                                        price = 0;
 
 
                                         session115.getTransaction().commit();
