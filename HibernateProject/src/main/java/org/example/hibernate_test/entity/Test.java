@@ -139,9 +139,9 @@ public class Test {
 
                                     System.out.println("Введите email (значение не может быть пустым)"); // Формат  первая буква - заглавная
 
-                                    //////////////////////////
+
                                     while (!user.setEmail(input2.nextLine().toLowerCase())) ;
-                                    /////////////////////////////
+
                                     Configuration configuration2 = new Configuration()
                                             .addAnnotatedClass(Users.class)
                                             .addAnnotatedClass(Product.class)
@@ -504,6 +504,7 @@ public class Test {
                                     "\n6 - для просмотра информации о всех зарегистрированных пользователях;" +
                                     "\n7 - для смены роли пользователю (с информацией о пользователях (в т.ч. о том - у какого пользователя какая роль) можно ознакомиться, если нажать 6 в меню администратора);" +
                                     "\n8 - для просмотра списка заказов;" +
+                                    "\n9 - для поиска заказа по номеру;" +
                                     "\n0 - для выхода из меню администратора");
                             z = inp.nextLine();
                             switch (z) {
@@ -880,7 +881,7 @@ public class Test {
 
                                     Product product1000 = new Product();
                                     List<Product> products = new ArrayList<>();
-                                    if (!DeleteProdArtikul(product1000.getCode())) {
+                                    if (!deleteProdArtikul(product1000.getCode())) {
                                         System.out.println("Товара с таким артикулом нет в списке товаров");
 
                                     }
@@ -1029,6 +1030,79 @@ public class Test {
                                     }
                                     System.out.println();
 
+
+                                    break;
+
+                                case"9":
+
+                                    Configuration configuration1152 = new Configuration()
+                                            .addAnnotatedClass(Product.class)
+                                            .addAnnotatedClass(Category.class)
+                                            .addAnnotatedClass(Users.class)
+                                            .addAnnotatedClass(Order.class)
+                                            .addAnnotatedClass(Status.class);
+
+
+                                    SessionFactory factory1152 = configuration1152.buildSessionFactory();
+
+                                    Session session1152 = null;
+                                    try {
+                                        session1152 = factory1152.getCurrentSession();
+                                        session1152.beginTransaction();
+
+                                        double price = 0;
+                                        List<Order> orderList = new ArrayList<>();
+                                        orderList = session1152.createQuery("from Order").getResultList();
+
+                                        System.out.println("Введите символы окончания номера заказа");
+                                        Scanner console = new Scanner(System.in);
+                                        String path = console.nextLine();
+                                       // System.out.println("Введите символы окончания номера заказа");
+
+                                        // Лист, чтобы разместить номера заказов без повтора
+                                        HashSet<String> hashList = new HashSet<>();
+                                        // Получаю номера всех заказов
+                                        for (Order o : orderList) {
+                                            // Заполняю поэлементно Hash лист
+                                            hashList.add(o.getNumber());
+                                        }
+
+                                        for (String hl : hashList) {
+                                            for (Order order : orderList) {
+                                                if (hl.equals(order.getNumber()) && hl.endsWith(path)) {
+                                                    System.out.println("Номер заказа: " + order.getNumber());
+                                                    System.out.println("Статус заказа: " + order.getStatus());
+
+                                                    DateTimeFormatter dtf1 = DateTimeFormatter.ofPattern("dd.MM.yy, HH:mm");
+                                                    String text = dtf1.format(order.getdAndT());
+                                                    System.out.println("Дата и время заказа: " + text);
+                                                    System.out.println("id заказчика - " + order.getUser().getId() + ", ФИО заказчика - " + order.getUser().getSurname() + " " + order.getUser().getName() + " " + order.getUser().getPatronymic());
+
+                                                    System.out.println("Список товаров заказа:");
+                                                    price = 0;
+                                                    for (Order order1 : orderList) {
+                                                        if (order1.getNumber().equals(hl)) {
+                                                            System.out.println("id товара - " + order1.getProduct().getId() + " , артикул товара - " + order1.getProduct().getCode() + ", наименование товара - " + order1.getProduct().getProduct_name() + ", цена товара - " + order1.getProduct().getProduct_price());
+                                                            price = order1.getProduct().getProduct_price() + price;
+                                                        }
+                                                    }
+
+                                                    System.out.println("Итоговая цена заказа: " + price);
+                                                    break;
+                                                }
+                                            }
+                                          //  System.out.println();
+                                        }
+
+                                        //System.out.println("Итого количество заказов у всех пользователей: " + hashList.size());
+
+                                        session1152.getTransaction().commit();
+
+                                    } finally {
+                                        session1152.close();
+                                        factory1152.close();
+                                    }
+                                    System.out.println();
 
                                     break;
 
@@ -1561,6 +1635,8 @@ public class Test {
                                         System.out.println("Количество Ваших заказов - " + hashList.size());
 
 
+
+
                                         session1151.getTransaction().commit();
                                     } finally {
                                         session1151.close();
@@ -1572,6 +1648,9 @@ public class Test {
 
 
                                     break;
+
+
+
 
                                 case "0":
                                     break;
@@ -1641,7 +1720,7 @@ public class Test {
         return false;
     }
 
-    public static boolean DeleteProdArtikul(String code) {
+    public static boolean deleteProdArtikul(String code) {
 
         Configuration configuration10 = new Configuration().
                 addAnnotatedClass(Product.class)
