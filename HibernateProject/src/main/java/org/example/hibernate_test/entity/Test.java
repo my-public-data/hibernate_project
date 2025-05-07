@@ -1033,7 +1033,7 @@ public class Test {
 
                                     break;
 
-                                case"9":
+                                case "9":
 
                                     Configuration configuration1152 = new Configuration()
                                             .addAnnotatedClass(Product.class)
@@ -1057,7 +1057,7 @@ public class Test {
                                         System.out.println("Введите символы окончания номера заказа");
                                         Scanner console = new Scanner(System.in);
                                         String path = console.nextLine();
-                                       // System.out.println("Введите символы окончания номера заказа");
+                                        // System.out.println("Введите символы окончания номера заказа");
 
                                         // Лист, чтобы разместить номера заказов без повтора
                                         HashSet<String> hashList = new HashSet<>();
@@ -1091,10 +1091,9 @@ public class Test {
                                                     break;
                                                 }
                                             }
-                                          //  System.out.println();
+
                                         }
 
-                                        //System.out.println("Итого количество заказов у всех пользователей: " + hashList.size());
 
                                         session1152.getTransaction().commit();
 
@@ -1635,8 +1634,6 @@ public class Test {
                                         System.out.println("Количество Ваших заказов - " + hashList.size());
 
 
-
-
                                         session1151.getTransaction().commit();
                                     } finally {
                                         session1151.close();
@@ -1648,8 +1645,6 @@ public class Test {
 
 
                                     break;
-
-
 
 
                                 case "0":

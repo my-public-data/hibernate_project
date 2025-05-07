@@ -4,7 +4,7 @@ import javax.persistence.*;
 import java.util.List;
 
 @Entity
-@Table(name = "mygroup2")
+@Table(name = "mygroup")
 public class Category {
 
 
@@ -26,7 +26,7 @@ public class Category {
         this.name = name;
     }
 
-    public Category(Class<Category> categoryClass, int identificator) {//НОВОЕ
+    public Category(Class<Category> categoryClass, int identificator) {
     }
 
 

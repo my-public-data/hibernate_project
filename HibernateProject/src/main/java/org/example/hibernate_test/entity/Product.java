@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Objects;
 
 @Entity
-@Table(name = "tovar_directional")
+@Table(name = "tovar")
 public class Product {
 
     @Id
@@ -21,14 +21,12 @@ public class Product {
     private double product_price;
 
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH})
-    @JoinTable(name = "mygroup2_tovar_directional"
+    @JoinTable(name = "mygroup_tovar"
             , joinColumns = @JoinColumn(name = "tovar_id")
             , inverseJoinColumns = @JoinColumn(name = "user_id")
     )
 
     private List<Users> usersList;
-
-
 
 
     @ManyToOne
@@ -37,13 +35,12 @@ public class Product {
     private Category cat;
 
 
-    ///////////////////////////////////////////////////
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
-    private List<Order>orderList;
-    ///////////////////////////////////////////////////
+    private List<Order> orderList;
 
-    public Product( String code, String product_name, Double product_price, Category cat) {
-       // this.id = id;
+
+    public Product(String code, String product_name, Double product_price, Category cat) {
+
         this.code = code; // номер товара
         this.product_name = product_name;
         this.product_price = product_price;
@@ -51,7 +48,7 @@ public class Product {
     }
 
     public Product(String code, String product_name, Double product_price) {
-       // this.id = id;
+
         this.code = code; // номер товара
         this.product_name = product_name;
         this.product_price = product_price;
@@ -94,7 +91,7 @@ public class Product {
     }
 
     public boolean setProduct_name(String product_name) {
-        if (product_name.matches("^\\s*$")) {                // Регулярное выражение - проверка на пустоту
+        if (product_name.matches("^\\s*$")) {                // проверка на пустоту
             System.out.println("Значение наименования товара не может быть пустым");
             return false;
         } else {

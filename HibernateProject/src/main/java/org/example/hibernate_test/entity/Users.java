@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Objects;
 
 @Entity
-@Table(name = "users_table_3")
+@Table(name = "user")
 public class Users {
 
     @Id
@@ -38,16 +38,15 @@ public class Users {
     private String password;
 
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH})
-    @JoinTable(name = "mygroup2_tovar_directional"
+    @JoinTable(name = "mygroup_tovar"
             , joinColumns = @JoinColumn(name = "user_id")
             , inverseJoinColumns = @JoinColumn(name = "tovar_id")
     )
     private List<Product> productList;
 
-    ///////////////////////////////////////////////////
+
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    private List<Order>orderList;
-    ///////////////////////////////////////////////////
+    private List<Order> orderList;
 
 
     public Users() {
