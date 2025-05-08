@@ -1,6 +1,6 @@
 package org.example.hibernate_test.entity;
 
-import net.bytebuddy.dynamic.loading.InjectionClassLoader;
+import org.example.Status;
 
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;

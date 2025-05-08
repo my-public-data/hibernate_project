@@ -1,4 +1,4 @@
-package org.example.hibernate_test.entity;
+package org.example;
 
 public enum Status {
     Принят,
