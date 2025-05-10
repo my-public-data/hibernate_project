@@ -1037,6 +1037,9 @@ public class Test {
 
                                 case "9":
 
+                                    boolean isorderin = false;
+                                    int counterin = 0;
+
                                     Configuration configuration1152 = new Configuration()
                                             .addAnnotatedClass(Product.class)
                                             .addAnnotatedClass(Category.class)
@@ -1069,34 +1072,56 @@ public class Test {
                                             hashList.add(o.getNumber());
                                         }
 
-                                        for (String hl : hashList) {
-                                            for (Order order : orderList) {
-                                                if (hl.equals(order.getNumber()) && hl.endsWith(path)) {
-                                                    System.out.println("Номер заказа: " + order.getNumber());
-                                                    System.out.println("Статус заказа: " + order.getStatus());
+                                        for (Order o : orderList) {
+                                            if (o.getNumber().endsWith(path)) {
+                                                counterin++;
+                                            }
+                                        }
 
-                                                    DateTimeFormatter dtf1 = DateTimeFormatter.ofPattern("dd.MM.yy, HH:mm");
-                                                    String text = dtf1.format(order.getdAndT());
-                                                    System.out.println("Дата и время заказа: " + text);
-                                                    System.out.println("id заказчика - " + order.getUser().getId() + ", ФИО заказчика - " + order.getUser().getSurname() + " " + order.getUser().getName() + " " + order.getUser().getPatronymic());
+                                        if (counterin == 0) {
+                                            isorderin = false;
+                                        }
+                                        else{
+                                            isorderin = true;
+                                        }
 
-                                                    System.out.println("Список товаров заказа:");
-                                                    price = 0;
-                                                    for (Order order1 : orderList) {
-                                                        if (order1.getNumber().equals(hl)) {
-                                                            System.out.println("id товара - " + order1.getProduct().getId() + " , артикул товара - " + order1.getProduct().getCode() + ", наименование товара - " + order1.getProduct().getProduct_name() + ", цена товара - " + order1.getProduct().getProduct_price());
-                                                            price = order1.getProduct().getProduct_price() + price;
+                                        if (isorderin == false) {
+                                            System.out.println("Нет заказов с номером, заканчивающимся на символы " + path);
+                                        }
+
+                                        else {
+
+                                            for (String hl : hashList) {
+                                                for (Order order : orderList) {
+                                                    if (hl.equals(order.getNumber()) && hl.endsWith(path)) {
+                                                        System.out.println("Номер заказа: " + order.getNumber());
+                                                        System.out.println("Статус заказа: " + order.getStatus());
+
+                                                        DateTimeFormatter dtf1 = DateTimeFormatter.ofPattern("dd.MM.yy, HH:mm");
+                                                        String text = dtf1.format(order.getdAndT());
+                                                        System.out.println("Дата и время заказа: " + text);
+                                                        System.out.println("id заказчика - " + order.getUser().getId() + ", ФИО заказчика - " + order.getUser().getSurname() + " " + order.getUser().getName() + " " + order.getUser().getPatronymic());
+
+                                                        System.out.println("Список товаров заказа:");
+                                                        price = 0;
+                                                        for (Order order1 : orderList) {
+                                                            if (order1.getNumber().equals(hl)) {
+                                                                System.out.println("id товара - " + order1.getProduct().getId() + " , артикул товара - " + order1.getProduct().getCode() + ", наименование товара - " + order1.getProduct().getProduct_name() + ", цена товара - " + order1.getProduct().getProduct_price());
+                                                                price = order1.getProduct().getProduct_price() + price;
+                                                            }
                                                         }
+
+                                                        System.out.println("Итоговая цена заказа: " + price);
+                                                        break;
                                                     }
 
-                                                    System.out.println("Итоговая цена заказа: " + price);
-                                                    break;
+
                                                 }
 
-
                                             }
-
                                         }
+
+
 
                                         session1152.getTransaction().commit();
 
@@ -1169,11 +1194,7 @@ public class Test {
                                             System.out.print("Это заказ с номером " + teknumber);
                                             System.out.println(" и статусом - " + tekstatus);
                                             do {
-                                                System.out.println("Для изменения статуса заказа введите кодовое значение статуса, на который будет изменен текущий статус (1, 2, 3 или 4):" +
-                                                        "\n1 - принят;" +
-                                                        "\n2 - оформлен;" +
-                                                        "\n3 - ожидает;" +
-                                                        "\n4 - получен;");
+                                                System.out.println("Для изменения текущего статуса заказа введите кодовое значение нового статуса  (1 - принят, 2 - офрмлен, 3 - ожидает или 4 - получен), на который будет изменен текущий статус:" );
                                                 numbstat = input.nextLine();
                                                 if (numbstat.equals("1") || numbstat.equals("2") || numbstat.equals("3") || numbstat.equals("4")) {
                                                     znach = true;
