@@ -1080,16 +1080,13 @@ public class Test {
 
                                         if (counterin == 0) {
                                             isorderin = false;
-                                        }
-                                        else{
+                                        } else {
                                             isorderin = true;
                                         }
 
                                         if (isorderin == false) {
                                             System.out.println("Нет заказов с номером, заканчивающимся на символы " + path);
-                                        }
-
-                                        else {
+                                        } else {
 
                                             for (String hl : hashList) {
                                                 for (Order order : orderList) {
@@ -1120,7 +1117,6 @@ public class Test {
 
                                             }
                                         }
-
 
 
                                         session1152.getTransaction().commit();
@@ -1194,7 +1190,7 @@ public class Test {
                                             System.out.print("Это заказ с номером " + teknumber);
                                             System.out.println(" и статусом - " + tekstatus);
                                             do {
-                                                System.out.println("Для изменения текущего статуса заказа введите кодовое значение нового статуса  (1 - принят, 2 - офрмлен, 3 - ожидает или 4 - получен), на который будет изменен текущий статус:" );
+                                                System.out.println("Для изменения текущего статуса заказа введите кодовое значение нового статуса  (1 - принят, 2 - офрмлен, 3 - ожидает или 4 - получен), на который будет изменен текущий статус:");
                                                 numbstat = input.nextLine();
                                                 if (numbstat.equals("1") || numbstat.equals("2") || numbstat.equals("3") || numbstat.equals("4")) {
                                                     znach = true;
@@ -1331,7 +1327,12 @@ public class Test {
                                 case "3":
 
                                     System.out.println("Добавление товара в корзину");
+
+                                    /////////////
+                                    String tovarname = null;
+                                    /////////////
                                     int count = 0;
+
                                     int n = 0;
                                     String art;
                                     Scanner sc = new Scanner(System.in);
@@ -1362,6 +1363,7 @@ public class Test {
                                             for (Product p : productList) {
                                                 if (p.getCode().equals(art)) {
                                                     count++;
+                                                    tovarname = p.getProduct_name();
                                                     user.addUserToProduct(p);
                                                 }
                                             }
@@ -1374,7 +1376,7 @@ public class Test {
                                         session.getTransaction().commit();
 
                                         if (count != 0) {
-                                            System.out.println("Товар с артикулом " + art + " добавлен в корзину");
+                                            System.out.println("Товар с артикулом " + art + " и названием " + tovarname + " добавлен в корзину");
                                         }
 
                                     } finally {
@@ -1386,6 +1388,8 @@ public class Test {
 
                                 case "4":
                                     System.out.println("Просмотр списка товаров в корзине");
+
+
 
                                     double sum = 0;
                                     Users user1 = null;
@@ -1425,6 +1429,10 @@ public class Test {
 
                                 case "5":
                                     System.out.println("Удаление товара из корзины");
+
+                                    /////////////
+                                    String tovarname2 = null;
+                                    /////////////
                                     int v = 0; //счетчик
                                     int z = 0;
                                     String art2;
@@ -1452,6 +1460,7 @@ public class Test {
                                             if (product.getCode().equals(art2)) {
                                                 z = product.getId();
                                                 v++;
+                                                tovarname2 = product.getProduct_name();
                                             }
                                         }
                                         if (v == 0) {
@@ -1471,7 +1480,7 @@ public class Test {
                                     }
                                     // Если товар в корзине есть
                                     if (v != 0) {
-                                        System.out.println("Товар с артикулом " + art2 + " удален из корзины");
+                                        System.out.println("Товар с артикулом " + art2 +" и названием " + tovarname2 + " удален из корзины");
                                     }
 
                                     break;
