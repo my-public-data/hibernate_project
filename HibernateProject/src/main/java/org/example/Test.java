@@ -506,6 +506,7 @@ public class Test {
                                     "\n7 - для смены роли пользователю (с информацией о пользователях (в т.ч. о том - у какого пользователя какая роль) можно ознакомиться, если нажать 6 в меню администратора);" +
                                     "\n8 - для просмотра списка заказов;" +
                                     "\n9 - для поиска заказа по номеру;" +
+                                    "\n10 - для смены статуса заказа;" +
                                     "\n0 - для выхода из меню администратора");
                             z = inp.nextLine();
                             switch (z) {
@@ -1058,7 +1059,7 @@ public class Test {
                                         System.out.println("Введите символы окончания номера заказа");
                                         Scanner console = new Scanner(System.in);
                                         String path = console.nextLine();
-                                        // System.out.println("Введите символы окончания номера заказа");
+
 
                                         // Лист, чтобы разместить номера заказов без повтора
                                         HashSet<String> hashList = new HashSet<>();
@@ -1091,10 +1092,11 @@ public class Test {
                                                     System.out.println("Итоговая цена заказа: " + price);
                                                     break;
                                                 }
+
+
                                             }
 
                                         }
-
 
                                         session1152.getTransaction().commit();
 
@@ -1103,6 +1105,113 @@ public class Test {
                                         factory1152.close();
                                     }
                                     System.out.println();
+
+                                    break;
+
+                                case "10":
+
+                                    int counter = 0;
+                                    String teknumber = null;
+                                    String temp = null;
+                                    Status status = null;
+                                    Status tekstatus = null;
+
+                                    Configuration configuration1153 = new Configuration()
+                                            .addAnnotatedClass(Product.class)
+                                            .addAnnotatedClass(Category.class)
+                                            .addAnnotatedClass(Users.class)
+                                            .addAnnotatedClass(Order.class)
+                                            .addAnnotatedClass(Status.class);
+
+                                    SessionFactory factory1153 = configuration1153.buildSessionFactory();
+
+                                    Session session1153 = null;
+                                    System.out.println("Введите символы окончания номера заказа");
+                                    Scanner console = new Scanner(System.in);
+                                    String path = console.nextLine();
+                                    Scanner input = new Scanner(System.in);
+                                    String numbstat = null;
+                                    boolean znach = false;
+                                    boolean isorder = false;
+
+                                    try {
+                                        session1153 = factory1153.getCurrentSession();
+                                        session1153.beginTransaction();
+
+                                        List<Order> orderList = new ArrayList<>();
+                                        orderList = session1153.createQuery("from Order").getResultList();
+
+                                        for (Order o : orderList) {
+                                            if (o.getNumber().endsWith(path)) {
+                                                tekstatus = o.getStatus();
+                                                counter++;
+                                            }
+                                        }
+                                        if (counter != 0) {
+                                            isorder = true;
+                                        } else {
+                                            isorder = false;
+                                        }
+                                        if (isorder) {
+                                            for (Order o : orderList) {
+                                                if (o.getNumber().endsWith(path)) {
+                                                    teknumber = o.getNumber();
+                                                }
+                                            }
+                                        }
+
+                                        if (isorder == false) {
+                                            System.out.println("Нет заказов с номером, заканчивающимся на символы " + path);
+                                        }
+                                        // Если Правда
+                                        else {
+                                            System.out.println("Есть заказ с номером, заканчивающимся на символы " + path);
+                                            System.out.print("Это заказ с номером " + teknumber);
+                                            System.out.println(" и статусом - " + tekstatus);
+                                            do {
+                                                System.out.println("Для изменения статуса заказа введите кодовое значение статуса, на который будет изменен текущий статус (1, 2, 3 или 4):" +
+                                                        "\n1 - принят;" +
+                                                        "\n2 - оформлен;" +
+                                                        "\n3 - ожидает;" +
+                                                        "\n4 - получен;");
+                                                numbstat = input.nextLine();
+                                                if (numbstat.equals("1") || numbstat.equals("2") || numbstat.equals("3") || numbstat.equals("4")) {
+                                                    znach = true;
+                                                }
+                                            }
+                                            while (znach == false);
+
+                                            if (numbstat.equals("1")) {
+                                                status = Status.Принят;
+                                            } else if (numbstat.equals("2")) {
+                                                status = Status.Оформлен;
+                                            } else if (numbstat.equals("3")) {
+                                                status = Status.Ожидает;
+                                            } else if (numbstat.equals("4")) {
+                                                status = Status.Получен;
+                                            }
+
+
+                                            for (Order o : orderList) {
+
+                                                if (o.getNumber().endsWith(path)) {
+                                                    temp = o.getNumber();
+                                                    o.setStatus(status);
+                                                }
+                                            }
+
+                                        }
+
+                                        if (isorder) {
+                                            System.out.println("У товара с номером " + temp + " статус заказа изменен на - " + status);
+                                        }
+
+                                        session1153.getTransaction().commit();
+
+                                    } finally {
+                                        session1153.close();
+                                        factory1153.close();
+                                    }
 
                                     break;
 
@@ -1224,7 +1333,6 @@ public class Test {
                                             if (pruductOfUser.getCode().equals(art)) {
                                                 n++;
                                             }
-
                                         }
 
                                         if (n > 0) {
