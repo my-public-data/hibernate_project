@@ -1133,6 +1133,7 @@ public class Test {
 
                                     int counter = 0;
                                     String teknumber = null;
+                                    boolean sovpadstatus = false;
                                     String temp = null;
                                     Status status = null;
                                     Status tekstatus = null;
@@ -1190,7 +1191,7 @@ public class Test {
                                             System.out.print("Это заказ с номером " + teknumber);
                                             System.out.println(" и статусом - " + tekstatus);
                                             do {
-                                                System.out.println("Для изменения текущего статуса заказа введите кодовое значение нового статуса  (1 - принят, 2 - офрмлен, 3 - ожидает или 4 - получен), на который будет изменен текущий статус:");
+                                                System.out.println("Для изменения текущего статуса заказа введите кодовое значение нового статуса  (1 - принят, 2 - оформлен, 3 - ожидает или 4 - получен), на который будет изменен текущий статус:");
                                                 numbstat = input.nextLine();
                                                 if (numbstat.equals("1") || numbstat.equals("2") || numbstat.equals("3") || numbstat.equals("4")) {
                                                     znach = true;
@@ -1210,16 +1211,27 @@ public class Test {
 
 
                                             for (Order o : orderList) {
-
                                                 if (o.getNumber().endsWith(path)) {
-                                                    temp = o.getNumber();
-                                                    o.setStatus(status);
+
+                                                    if (o.getStatus().equals(status)) {
+                                                        sovpadstatus = true;
+                                                        System.out.println("Текущее значение статуса совпадает со значением статуса, которое Вы хотите присвоить. Выберите другое значение нового статуса товара.");
+                                                        break;
+                                                    }
                                                 }
                                             }
+                                            for (Order o : orderList) {
 
+                                                if (o.getNumber().endsWith(path)) {
+                                                    if (o.getStatus().equals(status) == false) {
+                                                        temp = o.getNumber();
+                                                        o.setStatus(status);
+                                                    }
+                                                }
+                                            }
                                         }
 
-                                        if (isorder) {
+                                        if (isorder && sovpadstatus == false) {
                                             System.out.println("У товара с номером " + temp + " статус заказа изменен на - " + status);
                                         }
 
@@ -1390,7 +1402,6 @@ public class Test {
                                     System.out.println("Просмотр списка товаров в корзине");
 
 
-
                                     double sum = 0;
                                     Users user1 = null;
 
@@ -1480,7 +1491,7 @@ public class Test {
                                     }
                                     // Если товар в корзине есть
                                     if (v != 0) {
-                                        System.out.println("Товар с артикулом " + art2 +" и названием " + tovarname2 + " удален из корзины");
+                                        System.out.println("Товар с артикулом " + art2 + " и названием " + tovarname2 + " удален из корзины");
                                     }
 
                                     break;
@@ -1872,7 +1883,7 @@ public class Test {
 
             session201 = factory201.getCurrentSession();
             session201.beginTransaction();
-            System.out.println("Удаление товара по его артикулу(со списком товаров (который в т.ч. содержит артикул товара) можно ознакомиться, если нажать 3 в меню администратора)");
+            System.out.println("Удаление товара по его артикулу(со списком товаров (который в т.ч. содержит артикул товара) можно ознакомиться, если нажать 5 в меню администратора)");
             System.out.println("Введите артикул товара, который хотите удалить");
             Scanner scanner1 = new Scanner(System.in);
             String artikul = scanner1.nextLine();
